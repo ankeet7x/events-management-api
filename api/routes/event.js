@@ -1,10 +1,11 @@
+const { response } = require('express');
 const express = require('express');
 const mongoose = require('mongoose');
 const router = express.Router();
 const checkAuth = require('../middleware/authCheck');
 const Event = require('../models/eventmodel');
 
-router.post('/postevent', checkAuth, (req, res, next) => {
+router.post('/', checkAuth, (req, res, next) => {
     Event.findOne({event_name: req.body.event_name}).exec().then((thisEvent) => {
         if (thisEvent != null ){
             res.status(500).json({
@@ -39,6 +40,58 @@ router.post('/postevent', checkAuth, (req, res, next) => {
     })
 
 });
+
+
+router.get('/', checkAuth, (req, res, next) => {
+    Event.find().exec().then((events) => {
+        res.status(200).json({
+            message: "EventsFetched",
+            events: events
+        });
+    }).catch((err) => {
+        res.status(500).json({
+            message: "ErrorFindingEvents",
+            error: err.message
+        });
+    });
+});
+
+
+router.get('/:eventId', checkAuth, (req, res, next) => {
+    Event.findById(req.params.eventId).exec().then((thisEvent) => {
+        res.status(200).json({
+            message: "GotEvent",
+            event: thisEvent
+        });
+    }).catch((err) => {
+        res.status(500).json({
+            message: "ErrorGettingEvent",
+            error: err.message
+        });
+    });
+});
+
+router.delete('/:eventId', checkAuth, (req, res, next) => {
+    Event.deleteOne({_id: req.params.eventId, posted_by: req.body.userId}).exec().then((thisEvent) => {
+        if (thisEvent.body == null){
+            res.status(200).json({
+                message: "EventDeleted",
+                eventData: thisEvent
+            });
+        }else{
+            res.status(200).json({
+                message: "PermissionDenied",
+
+            });
+        }
+    }).catch((err) => {
+        res.status(500).json({
+            message: "Error",
+            error: err.message
+        });
+    });
+});
+
 
 
 module.exports = router;
