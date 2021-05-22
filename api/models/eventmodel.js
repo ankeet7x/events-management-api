@@ -4,6 +4,10 @@ const eventSchema = mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId
     },
+    event_file: {
+        type: String,
+        unique: true
+    },
     posted_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
