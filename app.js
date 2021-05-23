@@ -4,6 +4,7 @@ const app = express();
 const userRoute = require('./api/routes/user');
 const eventRoute = require("./api/routes/event");
 const commentRoute = require("./api/routes/comment");
+const registrationRoute = require('./api/routes/registration');
 
 mongoose.connect("mongodb+srv://ankeet:" + process.env.MONGO_ATLAS_PWD +"@cluster0.c0n1n.mongodb.net/myFirstDatabase?retryWrites=true&w=majority", {useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true})
 app.use(express.json());
@@ -13,6 +14,7 @@ app.use(express.urlencoded({
 app.use('/user', userRoute);
 app.use("/event", eventRoute);
 app.use("/comment", commentRoute);
+app.use("/register", registrationRoute);
 
 app.get('/', (req, res) => {
     res.send('api is live');

@@ -5,6 +5,8 @@ const Event = require('../models/eventmodel');
 const Comment = require("../models/commentmodel");
 const mongoose = require("mongoose");
 
+
+//Post comment to certain event using event_id
 router.post('/:eventId', checkPermission, (req, res, next) => {
     const eventId = req.params.eventId;
     Event.findById(eventId).exec().then((parentEvent) => {
@@ -64,7 +66,7 @@ router.delete('/', checkPermission, (req, res, next) => {
     })
 });
 
-
+//Fetch all comments
 router.get('/', checkPermission, (req, res, next) => {
     Comment.find().exec().then((comment) => {
         res.status(200).json({
