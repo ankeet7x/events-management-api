@@ -24,8 +24,6 @@ cloudinary.config({
 });
 
 
-
-
 router.post('/', checkAuth, upload.single("event_image") ,(req, res, next) => {
     cloudinary.uploader.upload(req.file.path, (err, result) => {
         if(err){
