@@ -1,0 +1,9 @@
+{
+    "env": {
+        "MONGO_ATLAS_PWD": "helloworld",
+        "JWT_KEY": "secret",
+        "CLOUD_NAME_CLOUDINARY": "dkgkpo6ri",
+        "CLOUDINARY_API_KEY": "957267793574315",
+        "CLOUDINARY_API_SECRET": "ohcqrw0ds59KzZ2uLH4Cw_FWQO4"
+    }
+}
