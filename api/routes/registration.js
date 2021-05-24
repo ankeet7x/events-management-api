@@ -63,9 +63,25 @@ router.get("/person/:personId", checkAuth, (req, res, next) => {
     });
 });
 
+//Delete registration of person
+router.delete("/person/:personId", checkAuth, (req, res, next) => {
+    Registration.deleteOne({ person_registered: req.params.personId, registrated_event: req.body.registrated_event }).exec().then((registration) => {
+        res.status(200).json({
+            message: "DeletedSuccessfully",
+            deletedEvent: registration
+        })
+    }).catch((err) => {
+        res.status(500).json({
+            message: "ErrorFindingEvent",
+            error: err.message
+        });
+    })
+})
+
+
 //Get registration by event
 router.get("/event/:eventId", checkAuth, (req, res, next) => {
-    Registration.find({registrated_event: req.params.eventId}).exec().then((registrations) => {
+    Registration.find({ registrated_event: req.params.eventId }).exec().then((registrations) => {
         res.status(200).json({
             message: "FetchedRegistrationsOfThisEvent",
             registrations: registrations
@@ -77,6 +93,8 @@ router.get("/event/:eventId", checkAuth, (req, res, next) => {
         });
     });
 });
+
+
 
 
 module.exports = router;
